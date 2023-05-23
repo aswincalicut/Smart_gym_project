@@ -1,0 +1,31 @@
+{% extends 'admintemp/dashmin.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>SI NO</th>
+        <th>CUSTOMER</th>
+        <th>DATE</th>
+        <th>PAYMENT</th>
+        <th>DELETE</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for i in data %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.bill_date}}</td>
+        <td>{{i.amount}}</td>
+        <td><a href="{% url 'delete_payment' i.id %}" type="submit" class="btn btn-danger">delete</a></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

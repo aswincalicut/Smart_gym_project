@@ -1,0 +1,34 @@
+{% extends 'customer/customer_panel.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>SI NO</th>
+        <th>SUBJECT</th>
+        <th>DESCRIPTION</th>
+        <th>DATE</th>
+        <th>DELETE</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for i in data %}
+
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.subject}}</td>
+        <td>{{i.description}}</td>
+        <td>{{i.date}}</td>
+        <td><a href="{% url 'delete_complaint' i.id %}" type="submit" class="btn btn-danger">Delete</a></td>
+      </tr>
+
+      {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+</div>
+{% endblock %}

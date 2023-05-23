@@ -1,0 +1,33 @@
+{% extends 'admintemp/dashmin.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>SI NO</th>
+                <th>MACHINE NAME</th>
+                <th>MACHINE PHOTO</th>
+                <th>UPDATE</th>
+                <th>DELETE</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.machine_name}}</td>
+                <td><img height="50px" width="60px" src="{{i.machine_photo.url}}" ></td>
+                <td><a href="{% url 'update_equipment' i.id %}" type="submit" class="btn btn-success">update</a></td>
+                <td><a href="{% url 'delete_equipment' i.id %}" type="submit" class="btn btn-danger">delete</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'admintemp/dashmin.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>SI NO</th>
+                <th>SUBJECT</th>
+                <th>DESCRIPTION</th>
+                <th>DATE</th>
+                <th>REPLY</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for i in data %}
+
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.subject}}</td>
+                <td>{{i.description}}</td>
+                <td>{{i.date}}</td>
+                <td><a href="{% url 'complaint_reply' i.id %}" type="submit" class="btn btn-primary"> Reply</a></td>
+            </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

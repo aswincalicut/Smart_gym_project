@@ -1,0 +1,26 @@
+{% extends 'customer/customer_panel.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+          <th>SI NO</th>
+          <th>BATCH TIME</th>
+          <th>BATCH NAME</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for i in data %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.batch_time}}</td>
+        <td>{{i.batch_name}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

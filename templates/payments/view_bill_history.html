@@ -1,0 +1,54 @@
+{% extends 'customer/customer_panel.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-lg--12 mt-5">
+  {% for message in messages %}
+  <div class="alert alert-danger" role="alert">
+    <strong>{{message}}</strong>
+  </div>
+  {% endfor %}
+  <div class="card">
+
+    <div class="card-body">
+      <h4 class="header-title">Payments</h4>
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>NAME</th>
+          <th>DUE DATE</th>
+          <th>PAID STATUS</th>
+          <th>RECEIPT</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for bill in bills %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{bill.name}}</td>
+          <td>{{bill.due_date}}</td>
+
+          <td>
+            {% if bill.status == 0 %}
+            <button class="btn btn-warning">Bill Pending</button>
+            {% elif bill.status == 1 %}
+            <button class="btn btn-success">Paid on</button>
+            {% elif bill.status == 2 %}
+            <button class="btn btn-warning">Choosed Pay Direct</button>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+
+
+
+</div>
+{% endblock %}

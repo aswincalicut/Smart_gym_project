@@ -1,0 +1,32 @@
+{% extends 'customer/customer_panel.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="card">
+  <div class="card-body">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>SI NO</th>
+        <th>CUSTOMER</th>
+        <th>ATTENDANCE</th>
+        <th>DATE</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for i in data %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.customer}}</td>
+        <td>{{i.attendance}}</td>
+        <td>{{i.date}}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

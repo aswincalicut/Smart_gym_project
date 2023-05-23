@@ -1,0 +1,39 @@
+{% extends 'admintemp/dashmin.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>SI NO</th>
+                <th>FIRST NAME</th>
+                <TH>LAST NAME</TH>
+                <th>USER NAME</th>
+                <th>PHONE NO</th>
+                <th>ADDRESS</th>
+                <th>UPDATE</th>
+                <th>DELETE</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.first_name}}</td>
+                <td>{{i.last_name}}</td>
+                <td>{{i.username}}</td>
+                <td>{{i.phone_number}}</td>
+                <td>{{i.address}}</td>
+                <td><a href="{% url 'update_customer' i.id %}" type="submit" class="btn btn-success">update</a></td>
+                <td><a href="{% url 'delete_customer' i.id %}" type="submit" class="btn btn-danger">delete</a></td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+
+    </div>
+
+</div>
+{% endblock %}

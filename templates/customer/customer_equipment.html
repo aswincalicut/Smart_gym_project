@@ -1,0 +1,17 @@
+{% extends 'customer/customer_panel.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% for i in data %}
+
+<div style="float: left; width: 14%; margin-right: 2rem; margin-bottom: 2rem " class="card " >
+  <img class="card-img-top" src="{{i.machine_photo.url}}" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{i.machine_name}}</h5>
+    <p class="card-text"></p>
+  </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

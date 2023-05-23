@@ -1,0 +1,62 @@
+{% extends 'admintemp/dashmin.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="card">
+<div class="card-body">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>SI NO</th>
+            <th>FIRST NAME</th>
+            <th>LAST NAME</th>
+            <th>USERNAME</th>
+            <th>PHONE_NO</th>
+            <th>ADDRESS</th>
+            <th>EXPERIENCE</th>
+            <th>PHOTO</th>
+            <th>DOB</th>
+            <th>GENDER</th>
+            <th>ACTION</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.first_name}}</td>
+            <td>{{i.last_name}}</td>
+            <td>{{i.username}}</td>
+            <td>{{i.phone_number}}</td>
+            <td>{{i.address}}</td>
+            <td>{{i.experience}}</td>
+            <td>
+                {% if i.photo %}
+                <img src="{{i.photo.url}}" height="100px">
+                {% endif %}
+            </td>
+            <td>{{i.date_of_birth}}</td>
+            <td>{{i.gender}}</td>
+            <td>
+                {% if i.status == 0 %}
+                <a href="{% url 'accept_instructor' i.id %}" type="submit" class="btn btn-success">Accept</a>
+                {% else %}
+                <button class="btn btn-success">Accepted</button>
+                {% endif %}
+            </td>
+        </tr>
+          {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+</div>
+
+<div style="text-align-center">
+<a href="{% url 'accepted_instructors' %}" type="submit" class="btn btn-primary">SUBMIT</a>
+</div>
+
+
+{% endblock %}
+
