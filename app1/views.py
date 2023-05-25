@@ -1,6 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.template.loader import get_template
+from .utils import render_to_pdf
+
 
 from app1.forms import customuserform, instructorform, physicianform, batchform, machineform, complaintsform, \
     serviceform, replyform, attendanceform, paybillform, billform
@@ -378,9 +382,9 @@ def delete_payment(request,id):
     Bill.objects.get(id=id).delete()
     return redirect('view_payment')
 
-def customerview_payment(request):
-    data = Bill.objects.filter(name=request.user)
-    return render(request,'payments/customerview_payment.html',{'data':data})
+# def customerview_payment(request):
+#     data = Bill.objects.filter(name=request.user)
+#     return render(request,'payments/customerview_payment.html',{'data':data})
 
 def pay_bill(request,id):
     bi = Bill.objects.get(id=id)
@@ -392,11 +396,47 @@ def pay_bill(request,id):
         bi.status = 1
         bi.save()
         messages.info(request,'Bill paid succesfully')
-        return redirect('customerview_payment')
+        return redirect('bill_history')
     return render(request,'payments/pay_bill.html')
 
 
-# def bill_history(request):
+def pay_in_direct(request,id):
+    bi = Bill.objects.get(id=id)
+    bi.status = 2
+    bi.save()
+    messages.info(request,'Choosed to pay Fee Direct in Office')
+    return redirect('bill_history')
+
+def bill_history(request):
+    u = request.user
+    print(u)
+    data = customuser.objects.get(username=request.user)
+    print(data)
+    bill = Bill.objects.filter(name=data,status__in=[0,1,2])
+    print(bill)
+    # u = customuser.objects.get(name=request.user)
+    # bill = Bill.objects.filter(name=u, status__in=[1,2])
+    return render(request, 'payments/view_bill_history.html',{'bill': bill})
+
+
+
+
+def get_invoice(request,id):
+    data = customuser.objects.get(username=request.user)
+    bill = Bill.objects.get(id=id)
+    template = get_template('payments/invoice.html')
+    html = template.render({'data':bill})
+    pdf = render_to_pdf('payments/invoice.html',{'data':bill})
+
+    return HttpResponse(pdf, content_type='application/pdf')
+
+
+def view_invoice(request,id):
+    u = customuser.objects.get(username=request.user)
+    bill = Bill.objects.filter(id=id)
+    return render(request,'payments/invoice.html',{'data':bill})
+
+
 
 
 

@@ -77,7 +77,11 @@ urlpatterns = [
     path('register_payment',views.register_payment,name='register_payment'),
     path('view_payment',views.view_payment,name='view_payment'),
     path('delete_payment/<int:id>/',views.delete_payment,name='delete_payment'),
-    path('customerview_payment',views.customerview_payment,name='customerview_payment'),
-    path('pay_bill/<int:id>/',views.pay_bill,name='pay_bill')
+    path('pay_bill/<int:id>/',views.pay_bill,name='pay_bill'),
+    path('bill_history',views.bill_history,name='bill_history'),
+    path('pay_in_direct/<int:id>/',views.pay_in_direct,name='pay_in_direct'),
+    path('view_invoice/<int:id>/',views.view_invoice,name='view_invoice'),
+    path('get_invoice/<int:id>/',views.get_invoice,name='get_invoice')
+
 
 ]
