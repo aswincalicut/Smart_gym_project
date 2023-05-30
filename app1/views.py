@@ -347,17 +347,11 @@ def delete_attendance(request,id):
     attendancemodel.objects.get(id=id).delete()
     return redirect('viewcustomer_attendance')
 
-#################### instructor panel start ###########################
-
-def instructor_panel(request):
-    return render(request,'instructortemp/instructor_panel.html')
-
-#################### instructor panel end ###########################
 
 #################### physician panel start ###########################
 
 def physician_panel(request):
-    return render(request,'physician_temp/physician_panel.html')
+    return render(request,'physiciantemp/physician_panel.html')
 
 
 ###################### payments ####################################
@@ -435,6 +429,51 @@ def view_invoice(request,id):
     u = customuser.objects.get(username=request.user)
     bill = Bill.objects.filter(id=id)
     return render(request,'payments/invoice.html',{'data':bill})
+
+
+#################### instructor panel start ###########################
+
+def instructor_panel(request):
+    return render(request, 'instructortemp/instructor_panel.html')
+
+
+def batch_details(request):
+    data = batch.objects.all()
+    return render(request, 'instructortemp/batch_details.html', {'data': data})
+
+def instructor_viewattendance(request):
+    data = attendancemodel.objects.all()
+    return render(request,'instructortemp/view_attendance.html',{'data':data})
+
+def add_attendance(request):
+    form = attendanceform()
+    if request.method=='POST':
+        form = attendanceform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('instructor_viewattendance')
+    return render(request,'instructortemp/add_attendance.html',{'form':form})
+
+def update_instructor_attendance(request,id):
+    data = attendancemodel.objects.get(id=id)
+    form = attendanceform(instance=data)
+    if request.method=='POST':
+        form = attendanceform(request.POST,instance=data)
+        if form.is_valid():
+            form.save()
+            return redirect('instructor_viewattendance')
+    return render(request,'instructortemp/update_attendance.html',{'form':form})
+
+def delete_instructor_attendance(request,id):
+    attendancemodel.objects.get(id=id).delete()
+    return redirect('instructor_viewattendance')
+
+def checkout_customers(request):
+    data = customuser.objects.filter(is_customer=True)
+    return render(request,'instructortemp/checkout_customer.html',{'data':data})
+
+
+#################### instructor panel end ###########################
 
 
 

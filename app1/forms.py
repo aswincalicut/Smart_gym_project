@@ -13,7 +13,7 @@ from tempus_dominus.widgets import TimePicker
 class customuserform(UserCreationForm):
     class Meta:
         model = customuser
-        fields = ('first_name','last_name','username','password1','password2','phone_number','address')
+        fields = ('first_name','last_name','username','password1','password2','phone_number','email','address')
 
 
 gender_choice = (

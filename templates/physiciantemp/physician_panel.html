@@ -212,45 +212,45 @@
 <!--              </ul>-->
             </li>
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                <div data-i18n="Authentications">BATCH INFORMATION</div>
-              </a>
-              <ul class="menu-sub">
+<!--              <a href="javascript:void(0);" class="menu-link menu-toggle">-->
+<!--                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>-->
+<!--                <div data-i18n="Authentications">BATCH INFORMATION</div>-->
+<!--              </a>-->
+<!--              <ul class="menu-sub">-->
 <!--                <li class="menu-item">-->
 <!--                  <a href="{% url 'batch_register' %}" class="menu-link" target="_blank">-->
 <!--                    <div data-i18n="Basic">Add Batch</div>-->
 <!--                  </a>-->
 <!--                </li>-->
-                <li class="menu-item">
+<!--                <li class="menu-item">-->
 <!--                  <a href="auth-register-basic.html" class="menu-link" target="_blank">-->
 <!--                    <div data-i18n="Basic">Batch Instructor</div>-->
 <!--                  </a>-->
-                </li>
-                <li class="menu-item">
-                  <a href="{% url 'batch_details' %}" class="menu-link" target="_blank">
-                    <div data-i18n="Basic">Batch Details</div>
-                  </a>
-                </li>
-              </ul>
+<!--                </li>-->
+<!--                <li class="menu-item">-->
+<!--                  <a href="{% url 'view_batch' %}" class="menu-link" target="_blank">-->
+<!--                    <div data-i18n="Basic">Batch Details</div>-->
+<!--                  </a>-->
+<!--                </li>-->
+<!--              </ul>-->
             </li>
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">ATTENDANCE DETAILS</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'add_attendance' %}" class="menu-link">
-                    <div data-i18n="Error">Add Attendance</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{% url 'instructor_viewattendance' %}" class="menu-link">
-                    <div data-i18n="Under Maintenance">View Attendance</div>
-                  </a>
-                </li>
-              </ul>
+<!--              <a href="javascript:void(0);" class="menu-link menu-toggle">-->
+<!--                <i class="menu-icon tf-icons bx bx-cube-alt"></i>-->
+<!--                <div data-i18n="Misc">ATTENDANCE DETAILS</div>-->
+<!--              </a>-->
+<!--              <ul class="menu-sub">-->
+<!--                <li class="menu-item">-->
+<!--                  <a href="{% url 'attendance_register' %}" class="menu-link">-->
+<!--                    <div data-i18n="Error">Add Attendance</div>-->
+<!--                  </a>-->
+<!--                </li>-->
+<!--                <li class="menu-item">-->
+<!--                  <a href="{% url 'viewcustomer_attendance' %}" class="menu-link">-->
+<!--                    <div data-i18n="Under Maintenance">View Attendance</div>-->
+<!--                  </a>-->
+<!--                </li>-->
+<!--              </ul>-->
             </li>
             <!-- Components -->
 <!--            <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>-->
@@ -263,20 +263,20 @@
 <!--            </li>-->
             <!-- User interface -->
             <li class="menu-item">
-<!--              <a href="javascript:void(0)" class="menu-link menu-toggle">-->
-<!--                <i class="menu-icon tf-icons bx bx-box"></i>-->
-<!--                <div data-i18n="User interface">PAYMENT INFORMATION</div>-->
-<!--              </a>-->
+              <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-box"></i>
+                <div data-i18n="User interface">PAYMENT INFORMATION</div>
+              </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-<!--                  <a href="{% url 'register_payment' %}" class="menu-link">-->
-<!--                    <div data-i18n="Accordion">Add Payment</div>-->
-<!--                  </a>-->
+                  <a href="{% url 'register_payment' %}" class="menu-link">
+                    <div data-i18n="Accordion">Add Payment</div>
+                  </a>
                 </li>
                 <li class="menu-item">
-<!--                  <a href="ui-alerts.html" class="menu-link">-->
-<!--                    <div data-i18n="Alerts">View Payment</div>-->
-<!--                  </a>-->
+                  <a href="ui-alerts.html" class="menu-link">
+                    <div data-i18n="Alerts">View Payment</div>
+                  </a>
                 </li>
 <!--                <li class="menu-item">-->
 <!--                  <a href="ui-badges.html" class="menu-link">-->
@@ -368,20 +368,20 @@
 
             <!-- Extended components -->
             <li class="menu-item">
-<!--              <a href="javascript:void(0)" class="menu-link menu-toggle">-->
-<!--                <i class="menu-icon tf-icons bx bx-copy"></i>-->
-<!--                <div data-i18n="Extended UI">GYM SERVICES</div>-->
-<!--              </a>-->
+              <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-copy"></i>
+                <div data-i18n="Extended UI">GYM SERVICES</div>
+              </a>
               <ul class="menu-sub">
-<!--                <li class="menu-item">-->
-<!--                  <a href="{% url 'register_service' %}" class="menu-link">-->
-<!--                    <div data-i18n="Perfect Scrollbar">Add Service</div>-->
-<!--                  </a>-->
-<!--                </li>-->
                 <li class="menu-item">
-<!--                  <a href="{% url 'view_service' %}" class="menu-link">-->
-<!--                    <div data-i18n="Text Divider">View Service</div>-->
-<!--                  </a>-->
+                  <a href="{% url 'register_service' %}" class="menu-link">
+                    <div data-i18n="Perfect Scrollbar">Add Service</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'view_service' %}" class="menu-link">
+                    <div data-i18n="Text Divider">View Service</div>
+                  </a>
                 </li>
               </ul>
             </li>
@@ -399,31 +399,31 @@
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Elements">CUSTOMERS</div>
+                <div data-i18n="Form Elements">GYM EQUIPMENTS</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{% url 'checkout_customers' %}" class="menu-link">
-                    <div data-i18n="Basic Inputs">Checkout Customers</div>
+                  <a href="{% url 'add_equipment' %}" class="menu-link">
+                    <div data-i18n="Basic Inputs">Add Equipments</div>
                   </a>
                 </li>
                 <li class="menu-item">
-<!--                  <a href="{% url 'view_equipment' %}" class="menu-link">-->
-<!--                    <div data-i18n="Input groups">View Equipments</div>-->
-<!--                  </a>-->
+                  <a href="{% url 'view_equipment' %}" class="menu-link">
+                    <div data-i18n="Input groups">View Equipments</div>
+                  </a>
                 </li>
               </ul>
             </li>
             <li class="menu-item">
-<!--              <a href="javascript:void(0);" class="menu-link menu-toggle">-->
-<!--                <i class="menu-icon tf-icons bx bx-detail"></i>-->
-<!--                <div data-i18n="Form Layouts">FEEDBACKS AND COMPLAINTS</div>-->
-<!--              </a>-->
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Form Layouts">FEEDBACKS AND COMPLAINTS</div>
+              </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-<!--                  <a href="{% url 'admin_viewcomplaint' %}" class="menu-link">-->
-<!--                    <div data-i18n="Vertical Form">View Complaints</div>-->
-<!--                  </a>-->
+                  <a href="{% url 'admin_viewcomplaint' %}" class="menu-link">
+                    <div data-i18n="Vertical Form">View Complaints</div>
+                  </a>
                 </li>
 <!--                <li class="menu-item">-->
 <!--                  <a href="form-layouts-horizontal.html" class="menu-link">-->
