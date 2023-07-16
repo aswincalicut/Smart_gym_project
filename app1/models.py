@@ -66,6 +66,21 @@ class creditcard(models.Model):
     card_cvv = models.CharField(max_length=30)
     expiry_date = models.CharField(max_length=200)
 
+class schedule(models.Model):
+    physician_name = models.ForeignKey(customuser, on_delete=models.CASCADE,null=True)
+    start_time = models.TimeField(null=True)
+    end_time = models.TimeField(null=True)
+    date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.physician_name
+
+class appointment(models.Model):
+    physician_name = models.ForeignKey(customuser, on_delete=models.CASCADE,null=True)
+    Schedule_appointment = models.ForeignKey(schedule, on_delete=models.CASCADE,null=True)
+    status = models.IntegerField(default=0)
+
+
 
 
 

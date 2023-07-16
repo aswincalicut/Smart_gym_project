@@ -1,0 +1,35 @@
+{% extends 'physiciantemp/physician_panel.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>SI NO</th>
+                <th>PHYSICAIN NAME</th>
+                <th>START TIME</th>
+                <th>END TIME</th>
+                <th>DATE</th>
+                <th>UPDATE</th>
+                <th>DELETE</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.physician_name}}</td>
+                <td>{{i.start_time}}</td>
+                <td>{{i.end_time}}</td>
+                <td>{{i.date}}</td>
+                <td><a href="{% url 'update_allschedule' i.id %}" class="btn btn-success">Update</a></td>
+                <td><a href="{% url 'delete_allschedule' i.id %}" class="btn btn-danger">Delete</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

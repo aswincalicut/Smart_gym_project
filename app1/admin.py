@@ -6,3 +6,4 @@ from app1 import models
 admin.site.register(models.customuser)
 admin.site.register(models.complaints)
 admin.site.register(models.attendancemodel)
+admin.site.register(models.schedule)

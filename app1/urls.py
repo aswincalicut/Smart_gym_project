@@ -5,6 +5,7 @@ from app1 import views
 urlpatterns = [
     path('',views.home,name='home'),
     path('log',views.log,name='log'),
+    path('logout_user',views.logout_user,name='logout_user'),
     path('sign',views.sign,name='sign'),
     path('customer_register',views.customer_register,name='customer_register'),
 
@@ -77,6 +78,15 @@ urlpatterns = [
 
     path('physician_panel',views.physician_panel,name='physician_panel'),
     path('customer_log',views.customer_log,name='customer_log'),
+
+    ############################# testing appointment ######################
+    path('schedule_customer',views.schedule_customer,name='schedule_customer'),
+    path('view_allschedule',views.view_allschedule,name='view_allschedule'),
+    path('update_allschedule/<int:id>/',views.update_allschedule,name='update_allschedule'),
+    path('delete_allschedule/<int:id>/',views.delete_allschedule,name='delete_allschedule'),
+    path('customer_view_schedule',views.customer_view_schedule,name='customer_view_schedule'),
+    path('view_physician_schedules',views.view_physician_schedules,name='view_physician_schedules'),
+
 
     ########################### payments #########################################
 

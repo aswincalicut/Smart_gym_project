@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 
 from app1.models import customuser, batch, equipments, complaints, servicemodel, attendancemodel, \
-    creditcard, Bill
+    creditcard, Bill, schedule
 from tempus_dominus.widgets import TimePicker
 
 
@@ -107,6 +107,16 @@ class paybillform(forms.ModelForm):
                 raise forms.ValidationError("This card has Expired")
 
             return cleaned_data
+
+class scheduleform(forms.ModelForm):
+    class Meta:
+        model = schedule
+        fields = ('physician_name','start_time','end_time','date',)
+        widgets = {
+            'start_time': forms.widgets.TimeInput(attrs={'type': 'time'}),
+            'end_time': forms.widgets.TimeInput(attrs={'type': 'time'}),
+            'date': forms.widgets.DateInput(attrs={'type': 'date'})
+        }
 
 
 

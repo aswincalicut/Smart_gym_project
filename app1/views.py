@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import get_template
@@ -7,17 +8,20 @@ from .utils import render_to_pdf
 
 
 from app1.forms import customuserform, instructorform, physicianform, batchform, machineform, complaintsform, \
-    serviceform, replyform, attendanceform, paybillform, billform
-from app1.models import customuser, batch, equipments, complaints, servicemodel, attendancemodel, Bill, creditcard
+    serviceform, replyform, attendanceform, paybillform, billform, scheduleform
+from app1.models import customuser, batch, equipments, complaints, servicemodel, attendancemodel, Bill, creditcard, \
+    schedule, appointment
 
 
 # Create your views here.
 def home(request):
     return render(request,'index.html')
 
+
 ########################### ADMIN VIEWS ############################
 def admin_home(request):
-    return render(request,'admintemp/dashmin.html')
+    if request.user.is_superuser:
+        return render(request,'admintemp/dashmin.html')
 
 ####################### instructor section start #######################
 
@@ -154,6 +158,10 @@ def log(request):
         else:
             messages.info(request,'invalid credentials')
     return render(request,'login.html')
+
+def logout_user(request):
+    logout(request)
+    return redirect('log')
 
 
 def customer_log(request):
@@ -348,14 +356,6 @@ def delete_attendance(request,id):
     return redirect('viewcustomer_attendance')
 
 
-#################### physician panel start ###########################
-
-def physician_panel(request):
-    return render(request,'physiciantemp/physician_panel.html')
-
-
-###################### payments ####################################
-
 def register_payment(request):
     form = billform()
     if request.method == 'POST':
@@ -474,6 +474,93 @@ def checkout_customers(request):
 
 
 #################### instructor panel end ###########################
+
+#################### physician panel start ###########################
+
+def physician_panel(request):
+    return render(request,'physiciantemp/physician_panel.html')
+
+# def appointment_available(request):
+#     username = request.user.username
+#     if request.user.is_physician:
+#         form = appointmentform(request.user)
+#         if request.method == 'POST':
+#             form = appointmentform(request.POST)
+#             if form.is_valid():
+#                 form.save()
+#                 return redirect('all_available_appointments')
+#         return render(request,'physiciantemp/appointment_available.html', {'form': form,'username': username})
+
+# def all_available_appointments(request):
+#     data = appointment.objects.all()
+#     return render(request,'physiciantemp/appointment_all.html',{'data': data})
+#
+# def customer_view_appointment(request):
+#     data = appointment.objects.all()
+#     return render(request,'physiciantemp/customer_view_appointment.html',{'data': data})
+
+@login_required
+def schedule_customer(request):
+    username = request.user.username
+    if request.user.is_physician:
+        form = scheduleform(initial={'physician_name':request.user})
+        form.fields['physician_name'].queryset = customuser.objects.filter(is_physician=True,username=request.user.username)
+        if request.method == 'POST':
+            form = scheduleform(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('view_allschedule')
+        return render(request,'physiciantemp/schedule_customer.html',{'form':form, 'username':username})
+
+
+def view_allschedule(request):
+    data = schedule.objects.all()
+    return render(request,'physiciantemp/schedule_all.html',{'data':data})
+
+def update_allschedule(request,id):
+    data = schedule.objects.get(id=id)
+    form = scheduleform( instance=data, initial={'physician_name':request.user})
+    form.fields['physician_name'].queryset = customuser.objects.filter(is_physician=True,username=request.user.username)
+    if request.method == 'POST':
+        form = scheduleform(request.POST,instance=data)
+        if form.is_valid():
+            form.save()
+            return redirect(view_allschedule)
+    return render(request,'physiciantemp/update_scheduleall.html',{'form':form})
+
+def delete_allschedule(request,id):
+    schedule.objects.get(id=id).delete()
+    return redirect('view_allschedule')
+
+
+def customer_view_schedule(request):
+    data = schedule.objects.all()
+    return render(request,'physiciantemp/customer_view_schedule.html',{'data': data})
+
+def view_physician_schedules(request):
+    user = request.user
+    data = schedule.objects.filter(physician_name=user)
+    return render(request,'physiciantemp/physician_view_appointment.html',{'data':data})
+
+def take_appointment(request,id):
+    s = schedule.object.get(id=id)
+    c = customuser.objects.get(user=request.user)
+    appo = schedule.objects.filter(physician_name=c, Schedule=s)
+    if appo.exists():
+        messages.info(request,'You have already requested for this schedule')
+        return redirect('customer_view_schedule')
+    else:
+        if request.method == 'POST':
+            obj = appointment
+            obj.physician_name = c
+            obj.Schedule = s
+            obj.save()
+            messages.info(request,'Appointment requested successfully')
+    return render(request,'customer/take_appointment.html',{'Schedule':s})
+
+
+
+###################### payments ####################################
 
 
 
