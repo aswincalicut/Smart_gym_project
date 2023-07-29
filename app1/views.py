@@ -22,6 +22,7 @@ def home(request):
 def admin_home(request):
     if request.user.is_superuser:
         return render(request,'admintemp/dashmin.html')
+    return render(request,"please login to access")
 
 ####################### instructor section start #######################
 

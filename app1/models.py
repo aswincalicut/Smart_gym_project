@@ -8,6 +8,7 @@ class customuser(AbstractUser):
     is_customer = models.BooleanField(default=False)
     is_physician = models.BooleanField(default=False)
     is_instructor = models.BooleanField(default=False)
+
     phone_number = models.IntegerField(null=True)
     address = models.TextField(null=True)
     experience = models.TextField(null=True)
