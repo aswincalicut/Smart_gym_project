@@ -22,7 +22,16 @@
                 <td>{{i.subject}}</td>
                 <td>{{i.description}}</td>
                 <td>{{i.date}}</td>
-                <td><a href="{% url 'complaint_reply' i.id %}" type="submit" class="btn btn-primary"> Reply</a></td>
+
+                <td>
+                    {% if i.status == 0 %}
+                    <a href="{% url 'complaint_reply' i.id %}" type="submit" class="btn btn-primary"> Reply</a>
+                    {% else %}
+                    <a type="submit" class="btn btn-success">Replied</a>
+                    {% endif %}
+                </td>
+
+
             </tr>
 
             {% endfor %}

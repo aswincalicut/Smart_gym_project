@@ -1,31 +1,36 @@
 {% extends 'instructortemp/instructor_panel.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+
+
 <div class="card">
   <div class="card-body">
     <table class="table table-bordered">
       <thead>
       <tr>
         <th>SI NO</th>
+        <th>CUSTOMER</th>
+        <th>ATTENDANCE</th>
         <th>DATE</th>
-        <th>VIEW</th>
-
 <!--        <th>UPDATE</th>-->
 <!--        <th>DELETE</th>-->
       </tr>
       </thead>
 
       <tbody>
-      {% for i in attendance %}
+      {% for i in data %}
       <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{i}}</td>
-        <td></td>
-<!--
+        <td>{{i.customer}}</td>
+        <td>{{i.attendance}}</td>
+        <td>{{i.date}}</td>
+<!--        <td><a type="submit" class="btn btn-success" href="{% url 'update_attendance' i.id %}">Update</a></td>-->
+<!--        <td><a type="submit" class="btn btn-danger" href="{% url 'delete_attendance' i.id %}">delete</a></td>-->
       </tr>
       {% endfor %}
       </tbody>
     </table>
   </div>
 </div>
+
 {% endblock %}

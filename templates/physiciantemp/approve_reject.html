@@ -1,0 +1,38 @@
+{% extends 'physiciantemp/physician_panel.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>SI NO</th>
+                <th>Customer name</th>
+<!--                <th>Physician name</th>-->
+                <th>Start time</th>
+                <th>End time</th>
+                <th>Date</th>
+                <th>Approve</th>
+                <th>Reject</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for i in data %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.physician_name.username}}</td>
+<!--                    <td>{{i.physician_name.username}}</td>-->
+                    <td>{{i.Schedule_appointment.start_time}}</td>
+                    <td>{{i.Schedule_appointment.end_time}}</td>
+                    <td>{{i.Schedule_appointment.date}}</td>
+                    <td><button type="submit" class="btn btn-success">Approve</button></td>
+                    <td><button type="submit" class="btn btn-danger">Reject</button></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock %}

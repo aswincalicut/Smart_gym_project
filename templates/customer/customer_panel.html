@@ -445,6 +445,11 @@
                     <div data-i18n="Vertical Form">Register Complaints</div>
                   </a>
                 </li>
+                   <li class="menu-item">
+                  <a href="{% url 'customerview_reply' %}" class="menu-link">
+                    <div data-i18n="Vertical Form">View Reply</div>
+                  </a>
+                </li>
 <!--                <li class="menu-item">-->
 <!--                  <a href="form-layouts-horizontal.html" class="menu-link">-->
 <!--                    <div data-i18n="Horizontal Form">Horizontal Form</div>-->
@@ -599,6 +604,9 @@
 
             <div class="container-xxl flex-grow-1 container-p-y">
                 {% block content %}
+                    <div class="card">
+                <h1 style="text-align:center;">Welcome {{user.username.capitalize}}</h1>
+                        </div>
                 {% endblock %}
                 <div class="col-lg-8 mb-4 order-0">
 <!--                  <div class="card">-->

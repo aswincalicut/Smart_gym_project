@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -7,10 +9,11 @@ from django.template.loader import get_template
 from .utils import render_to_pdf
 
 
+
 from app1.forms import customuserform, instructorform, physicianform, batchform, machineform, complaintsform, \
-    serviceform, replyform, attendanceform, paybillform, billform, scheduleform
-from app1.models import customuser, batch, equipments, complaints, servicemodel, attendancemodel, Bill, creditcard, \
-    schedule, appointment
+    serviceform, replyform, paybillform, billform, scheduleform, attendanceform, firstaidform
+from app1.models import customuser, batch, equipments, complaints, servicemodel, Bill, creditcard, \
+    schedule, appointment, attendancemodel, firstaid
 
 
 # Create your views here.
@@ -89,6 +92,11 @@ def customer_register(request):
 def view_customer(request):
     data = customuser.objects.filter(is_customer=True)
     return render(request,'admintemp/customer_view.html', {'data':data})
+
+
+
+
+
 
 def update_customer(request,id):
     data = customuser.objects.get(id=id)
@@ -268,8 +276,16 @@ def delete_complaint(request,id):
     return redirect('view_complaint')
 
 def admin_viewcomplaint(request):
-    data = complaints.objects.filter()
+    data = complaints.objects.all()
     return render(request,'complaints/view_complaint_admin.html',{'data':data})
+
+def status_reply(request,id):
+    data = complaints.objects.get(id=id)
+    data.status = 1
+    data.save()
+    return redirect('admin_viewcomplaint')
+
+
 
 def complaint_reply(request,id):
     data = complaints.objects.get(id=id)
@@ -278,12 +294,16 @@ def complaint_reply(request,id):
         form = replyform(request.POST,instance=data)
         if form.is_valid():
             form.save()
-            return redirect('replysee')
+            return redirect('admin_viewcomplaint')
     return render(request,'complaints/complaint_reply.html',{'form':form})
 
 def replysee(request):
     data = complaints.objects.filter()
     return render(request,'complaints/reply_see.html',{'data':data})
+
+def customerview_reply(request):
+    data = complaints.objects.all()
+    return render(request,'complaints/complaint_reply_view.html',{'data':data})
 
 #################### complaints section end ###############################
 
@@ -332,15 +352,18 @@ def attendance_register(request):
             form.save()
             return redirect('viewcustomer_attendance')
     return render(request,'attendance/customer_attendance.html',{'form':form})
-
+#
 def viewcustomer_attendance(request):
     data = attendancemodel.objects.all()
     return render(request,'attendance/customerview_attendance.html',{'data':data})
-
+def viewinstructor_attendance(request):
+    data = attendancemodel.objects.all()
+    return render(request,'attendance/instructorview_attendance.html',{'data':data})
+#
 def view_attendance(request):
     data = attendancemodel.objects.filter(customer=request.user)
     return render(request,'attendance/customer_view.html',{'data':data})
-
+#
 def update_attendance(request,id):
     data = attendancemodel.objects.get(id=id)
     form = attendanceform(instance=data)
@@ -350,8 +373,8 @@ def update_attendance(request,id):
             form.save()
             return redirect('view_attendance')
     return render(request,'attendance/update_attendance.html',{'form':form})
-
-
+#
+#
 def delete_attendance(request,id):
     attendancemodel.objects.get(id=id).delete()
     return redirect('viewcustomer_attendance')
@@ -442,32 +465,62 @@ def batch_details(request):
     data = batch.objects.all()
     return render(request, 'instructortemp/batch_details.html', {'data': data})
 
-def instructor_viewattendance(request):
-    data = attendancemodel.objects.all()
-    return render(request,'instructortemp/view_attendance.html',{'data':data})
 
-def add_attendance(request):
-    form = attendanceform()
-    if request.method=='POST':
-        form = attendanceform(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('instructor_viewattendance')
-    return render(request,'instructortemp/add_attendance.html',{'form':form})
 
-def update_instructor_attendance(request,id):
-    data = attendancemodel.objects.get(id=id)
-    form = attendanceform(instance=data)
-    if request.method=='POST':
-        form = attendanceform(request.POST,instance=data)
-        if form.is_valid():
-            form.save()
-            return redirect('instructor_viewattendance')
-    return render(request,'instructortemp/update_attendance.html',{'form':form})
+# def add_attendance(request):
+#     form = attendanceform()
+#     if request.method == 'POST':
+#         form = attendanceform(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('instructor_viewattendance')
+#     return render(request,'instructortemp/add_attendance.html',{'form':form,})
 
-def delete_instructor_attendance(request,id):
-    attendancemodel.objects.get(id=id).delete()
-    return redirect('instructor_viewattendance')
+# def viewattendance(request):
+#     value_list = Attendance.objects.values_list('date', flat=True).distinct()
+#     attendance = {}
+#     for value in value_list:
+#         attendance[value] = Attendance.objects.filter(data=value)
+#         print(attendance[value])
+#     return render(request,'instructortemp/view_attendance.html',{'attendance':attendance})
+#
+# def instructor_viewCustomer(request):
+#     data = customuser.objects.filter(is_customer=True)
+#     return render(request,'instructortemp/view_all.html',{"data":data})
+#
+# def add_attendance(request,id):
+#     user = customuser.objects.get(id=id)
+#     att = Attendance.objects.filter(customer=user,date=date.today())
+#     if att.exists():
+#         messages.info(request,"todays attendance already marked")
+#         return redirect('instructor_viewattendance')
+#     else:
+#         if request.method == 'POST':
+#             attndc = request.POST.get('attendance')
+#             attendance = Attendance()
+#             attendance.attendance =attndc
+#             attendance.customer=user
+#             attendance.date=date.today()
+#             return redirect('viewattendance')
+#         return render(request,'instructortemp/mark_attendance.html')
+
+
+
+
+
+# def update_instructor_attendance(request,id):
+#     data = Attendance.objects.get(id=id)
+#     form = attendanceform(instance=data)
+#     if request.method=='POST':
+#         form = attendanceform(request.POST,instance=data)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('instructor_viewattendance')
+#     return render(request,'instructortemp/update_attendance.html',{'form':form})
+
+# def delete_instructor_attendance(request,id):
+#     attendancemodel.objects.get(id=id).delete()
+#     return redirect('instructor_viewattendance')
 
 def checkout_customers(request):
     data = customuser.objects.filter(is_customer=True)
@@ -481,24 +534,6 @@ def checkout_customers(request):
 def physician_panel(request):
     return render(request,'physiciantemp/physician_panel.html')
 
-# def appointment_available(request):
-#     username = request.user.username
-#     if request.user.is_physician:
-#         form = appointmentform(request.user)
-#         if request.method == 'POST':
-#             form = appointmentform(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect('all_available_appointments')
-#         return render(request,'physiciantemp/appointment_available.html', {'form': form,'username': username})
-
-# def all_available_appointments(request):
-#     data = appointment.objects.all()
-#     return render(request,'physiciantemp/appointment_all.html',{'data': data})
-#
-# def customer_view_appointment(request):
-#     data = appointment.objects.all()
-#     return render(request,'physiciantemp/customer_view_appointment.html',{'data': data})
 
 @login_required
 def schedule_customer(request):
@@ -544,24 +579,42 @@ def view_physician_schedules(request):
     return render(request,'physiciantemp/physician_view_appointment.html',{'data':data})
 
 def take_appointment(request,id):
-    s = schedule.object.get(id=id)
-    c = customuser.objects.get(user=request.user)
-    appo = schedule.objects.filter(physician_name=c, Schedule=s)
+    s = schedule.objects.get(id=id)
+    c = customuser.objects.get(username=request.user)
+    appo = appointment.objects.filter(physician_name=c, Schedule_appointment=s)
     if appo.exists():
         messages.info(request,'You have already requested for this schedule')
         return redirect('customer_view_schedule')
     else:
         if request.method == 'POST':
-            obj = appointment
-            obj.physician_name = c
-            obj.Schedule = s
+            obj = appointment(physician_name=c, Schedule_appointment=s)
             obj.save()
             messages.info(request,'Appointment requested successfully')
+            return redirect('customer_view_schedule')
     return render(request,'customer/take_appointment.html',{'Schedule':s})
 
+def approve_reject_appointment(request):
+    data = appointment.objects.filter()
+    return render(request,'physiciantemp/approve_reject.html',{'data':data})
 
 
-###################### payments ####################################
+
+
+
+######################## first adid ###################################
+
+def add_firstaid(request):
+    form = firstaidform
+    if request.method == 'POST':
+        form = firstaidform(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('view_firstaid')
+    return render(request,'physiciantemp/add_firstaid.html',{'form':form})
+
+def view_firstaid(request):
+    data = firstaid.objects.all()
+    return render(request,'physiciantemp/view_firstaid.html',{'data':data})
 
 
 

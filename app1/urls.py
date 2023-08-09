@@ -47,6 +47,7 @@ urlpatterns = [
     path('view_complaint',views.view_complaint,name='view_complaint'),
     path('delete_complaint/<int:id>/',views.delete_complaint,name='delete_complaint'),
     path('admin_viewcomplaint',views.admin_viewcomplaint,name='admin_viewcomplaint'),
+    path('status_reply/<int:id>/',views.status_reply,name='status_reply'),
     path('register_service',views.register_service,name='register_service'),
     path('view_service',views.view_service,name='view_service'),
     path('customerview_service',views.customerview_service,name='customerview_service'),
@@ -54,11 +55,13 @@ urlpatterns = [
     path('delete_service/<int:id>/',views.delete_service,name='delete_service'),
     path('complaint_reply/<int:id>/',views.complaint_reply,name='complaint_reply'),
     path('replysee',views.replysee,name='replysee'),
+    path('customerview_reply',views.customerview_reply,name='customerview_reply'),
 
     ############################### ATTENDANCE ##################################
 
     path('attendance_register',views.attendance_register,name='attendance_register'),
     path('viewcustomer_attendance',views.viewcustomer_attendance,name='viewcustomer_attendance'),
+    path('viewinstructor_attendance',views.viewinstructor_attendance,name='viewinstructor_attendance'),
     path('view_attendance',views.view_attendance,name='view_attendance'),
     path('delete_attendance/<int:id>/',views.delete_attendance,name='delete_attendance'),
     path('update_attendance/<int:id>/',views.update_attendance,name='update_attendance'),
@@ -68,11 +71,12 @@ urlpatterns = [
 
     path('instructor_panel',views.instructor_panel,name='instructor_panel'),
     path('batch_details',views.batch_details,name='batch_details'),
-    path('instructor_viewattendance',views.instructor_viewattendance,name='instructor_viewattendance'),
-    path('add_attendance',views.add_attendance,name='add_attendance'),
-    path('update_instructor_attendance/<int:id>/',views.update_instructor_attendance,name='update_instructor_attendance'),
-    path('delete_instructor_attendance/<int:id>/',views.delete_instructor_attendance,name='delete_instructor_attendance'),
+    # path('viewattendance',views.viewattendance,name='viewattendance'),
+    # path('add_attendance/<int:id>/',views.add_attendance,name='add_attendance'),
+    # path('update_instructor_attendance/<int:id>/',views.update_instructor_attendance,name='update_instructor_attendance'),
+    # path('delete_instructor_attendance/<int:id>/',views.delete_instructor_attendance,name='delete_instructor_attendance'),
     path('checkout_customers',views.checkout_customers,name='checkout_customers'),
+    # path('instructor_viewCustomer',views.instructor_viewCustomer,name='instructor_viewCustomer'),
 
     ############################## physician panel ##############################
 
@@ -86,6 +90,9 @@ urlpatterns = [
     path('delete_allschedule/<int:id>/',views.delete_allschedule,name='delete_allschedule'),
     path('customer_view_schedule',views.customer_view_schedule,name='customer_view_schedule'),
     path('view_physician_schedules',views.view_physician_schedules,name='view_physician_schedules'),
+    path('take_appointment/<int:id>/',views.take_appointment,name='take_appointment'),
+
+    path('approve_reject_appointment',views.approve_reject_appointment,name='approve_reject_appointment'),
 
 
     ########################### payments #########################################
@@ -97,7 +104,9 @@ urlpatterns = [
     path('bill_history',views.bill_history,name='bill_history'),
     path('pay_in_direct/<int:id>/',views.pay_in_direct,name='pay_in_direct'),
     path('view_invoice/<int:id>/',views.view_invoice,name='view_invoice'),
-    path('get_invoice/<int:id>/',views.get_invoice,name='get_invoice')
+    path('get_invoice/<int:id>/',views.get_invoice,name='get_invoice'),
+    path('add_firstaid',views.add_firstaid,name='add_firstaid'),
+    path('view_firstaid',views.view_firstaid,name='view_firstaid')
 
 
 ]

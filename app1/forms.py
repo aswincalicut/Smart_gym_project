@@ -5,15 +5,17 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 
-from app1.models import customuser, batch, equipments, complaints, servicemodel, attendancemodel, \
-    creditcard, Bill, schedule
+from app1.models import customuser, batch, equipments, complaints, servicemodel, \
+    creditcard, Bill, schedule, attendancemodel, firstaid, appointment
 from tempus_dominus.widgets import TimePicker
 
 
 class customuserform(UserCreationForm):
     class Meta:
         model = customuser
-        fields = ('first_name','last_name','username','password1','password2','phone_number','email','address')
+        fields = ('first_name','last_name',
+                  'username','password1','password2',
+                  'phone_number','email','address')
 
 
 gender_choice = (
@@ -26,7 +28,9 @@ class instructorform(UserCreationForm):
     gender = forms.ChoiceField(choices=gender_choice,required=True,widget=forms.RadioSelect)
     class Meta:
         model = customuser
-        fields = ('first_name','last_name','username','password1','password2','phone_number','address','experience',
+        fields = ('first_name','last_name','username',
+                  'password1','password2','phone_number',
+                  'address','experience',
                   'photo','date_of_birth','gender')
         widgets = {
             'date_of_birth':forms.widgets.DateInput(attrs={'type':'date'})
@@ -35,7 +39,8 @@ class instructorform(UserCreationForm):
 class physicianform(UserCreationForm):
     class Meta:
         model = customuser
-        fields = ('first_name','last_name','username','password1','password2','phone_number','address','qualification')
+        fields = ('first_name','last_name','username','password1',
+                  'password2','phone_number','address','qualification')
 
 
 class batchform(forms.ModelForm):
@@ -69,6 +74,11 @@ class serviceform(forms.ModelForm):
     class Meta:
         model = servicemodel
         fields = ('services','image')
+
+class firstaidform(forms.ModelForm):
+    class Meta:
+        model = firstaid
+        fields = ('name','image')
 
 attendance_choice = (
     ('PRESENT','PRESENT'),
@@ -118,7 +128,10 @@ class scheduleform(forms.ModelForm):
             'date': forms.widgets.DateInput(attrs={'type': 'date'})
         }
 
-
+class appointmentform(forms.ModelForm):
+    class Meta:
+        model = appointment
+        fields = ('physician_name','Schedule_appointment')
 
 
 

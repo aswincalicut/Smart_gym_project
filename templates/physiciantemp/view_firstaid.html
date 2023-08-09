@@ -1,4 +1,4 @@
-{% extends 'instructortemp/instructor_panel.html' %}
+{% extends 'physiciantemp/physician_panel.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="card">
@@ -7,24 +7,21 @@
       <thead>
       <tr>
         <th>SI NO</th>
-        <th>DATE</th>
-        <th>VIEW</th>
-
-<!--        <th>UPDATE</th>-->
-<!--        <th>DELETE</th>-->
+        <th>Name</th>
+        <th>Image</th>
       </tr>
       </thead>
 
       <tbody>
-      {% for i in attendance %}
+      {% for i in data %}
       <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{i}}</td>
-        <td></td>
-<!--
+        <td>{{i.name}}</td>
+        <td><img height="50px" width="50px" src="{{i.image.url}}"></td>
       </tr>
       {% endfor %}
       </tbody>
+
     </table>
   </div>
 </div>

@@ -34,6 +34,7 @@ class complaints(models.Model):
     description = models.TextField()
     date = models.CharField(max_length=50)
     reply = models.TextField(max_length=255,null=True)
+    status = models.IntegerField(default=0)
 
     def __str__(self):
         return self.subject
@@ -42,6 +43,10 @@ class complaints(models.Model):
 class servicemodel(models.Model):
     services = models.CharField(max_length=100)
     image = models.ImageField(upload_to='instructor',null=True)
+
+class firstaid(models.Model):
+    name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='instructor')
 
 class attendancemodel(models.Model):
     attendance = models.CharField(max_length=9)
@@ -73,7 +78,7 @@ class schedule(models.Model):
     end_time = models.TimeField(null=True)
     date = models.DateField(null=True)
 
-    def __str__(self):
+    def __int__(self):
         return self.physician_name
 
 class appointment(models.Model):
