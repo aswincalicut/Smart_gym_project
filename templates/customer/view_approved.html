@@ -1,4 +1,4 @@
-{% extends 'physiciantemp/physician_panel.html' %}
+{% extends 'customer/customer_panel.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="card">
@@ -13,7 +13,6 @@
                 <th>End time</th>
                 <th>Date</th>
                 <th>Approve</th>
-                <th>Reject</th>
             </tr>
             </thead>
 
@@ -27,15 +26,7 @@
                     <td>{{i.Schedule_appointment.end_time}}</td>
                     <td>{{i.Schedule_appointment.date}}</td>
                     <td>
-                        {% if i.status == 0 %}
-                        <a href="{% url 'accept_appointment' i.id %}" type="submit" class="btn btn-success">Approve</a>
-                        {% elif i.status == 1 %}
                         <a style="color:white;" type="submit" class="btn btn-primary">Approved</a>
-                         {% endif %}
-                    </td>
-                    <td>
-                        <a href="{% url 'reject_appointment' i.id %}" type="submit" class="btn btn-danger">Reject</a>
-
                     </td>
                 </tr>
             {% endfor %}

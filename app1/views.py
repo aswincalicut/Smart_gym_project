@@ -11,7 +11,7 @@ from .utils import render_to_pdf
 
 
 from app1.forms import customuserform, instructorform, physicianform, batchform, machineform, complaintsform, \
-    serviceform, replyform, paybillform, billform, scheduleform, attendanceform, firstaidform
+    serviceform, replyform, paybillform, billform, scheduleform, attendanceform, firstaidform, appointmentform
 from app1.models import customuser, batch, equipments, complaints, servicemodel, Bill, creditcard, \
     schedule, appointment, attendancemodel, firstaid
 
@@ -594,8 +594,23 @@ def take_appointment(request,id):
     return render(request,'customer/take_appointment.html',{'Schedule':s})
 
 def approve_reject_appointment(request):
-    data = appointment.objects.filter()
+    data = appointment.objects.all()
     return render(request,'physiciantemp/approve_reject.html',{'data':data})
+
+def accept_appointment(request,id):
+    data = appointment.objects.get(id=id)
+    data.status = 1
+    data.save()
+    return redirect('approve_reject_appointment')
+
+def reject_appointment(request,id):
+    appointment.objects.get(id=id).delete()
+    return redirect(request,'approve_reject_appointment')
+
+def view_approved(request,):
+    data = appointment.objects.filter(status=1,physician_name=request.user)
+    return render(request,'customer/view_approved.html',{'data':data})
+
 
 
 

@@ -93,6 +93,9 @@ urlpatterns = [
     path('take_appointment/<int:id>/',views.take_appointment,name='take_appointment'),
 
     path('approve_reject_appointment',views.approve_reject_appointment,name='approve_reject_appointment'),
+    path('accept_appointment/<int:id>/',views.accept_appointment,name='accept_appointment'),
+    path('reject_appointment/<int:id>/',views.reject_appointment,name='reject_appointment'),
+    path('view_approved',views.view_approved,name='view_approved'),
 
 
     ########################### payments #########################################
