@@ -105,6 +105,7 @@ urlpatterns = [
     path('delete_payment/<int:id>/',views.delete_payment,name='delete_payment'),
     path('pay_bill/<int:id>/',views.pay_bill,name='pay_bill'),
     path('bill_history',views.bill_history,name='bill_history'),
+    path('admin_view_payment',views.admin_view_payment,name='admin_view_payment'),
     path('pay_in_direct/<int:id>/',views.pay_in_direct,name='pay_in_direct'),
     path('view_invoice/<int:id>/',views.view_invoice,name='view_invoice'),
     path('get_invoice/<int:id>/',views.get_invoice,name='get_invoice'),

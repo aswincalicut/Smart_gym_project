@@ -396,6 +396,8 @@ def view_payment(request):
     data = Bill.objects.all()
     return render(request,'payments/view_payment.html',{'data':data})
 
+
+
 def delete_payment(request,id):
     Bill.objects.get(id=id).delete()
     return redirect('view_payment')
@@ -436,7 +438,9 @@ def bill_history(request):
     # bill = Bill.objects.filter(name=u, status__in=[1,2])
     return render(request, 'payments/view_bill_history.html',{'bill': bill})
 
-
+def admin_view_payment(request):
+    data = Bill.objects.all()
+    return render(request,'payments/admin_view_payments.html',{'data':data})
 
 
 def get_invoice(request,id):
