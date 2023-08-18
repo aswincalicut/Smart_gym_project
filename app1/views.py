@@ -199,7 +199,7 @@ def view_batch(request):
 def update_batch(request,id):
     data = batch.objects.get(id=id)
     form = batchform(instance=data)
-    if request.method=='POST':
+    if request.method =='POST':
         form = batchform(request.POST, instance=data)
         if form.is_valid():
             form.save()
@@ -245,6 +245,7 @@ def delete_equipment(request,id):
 
 ################### customer_panel ###################################
 
+@login_required
 def customer_panel(request):
     return render(request,'customer/customer_panel.html')
 
