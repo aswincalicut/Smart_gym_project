@@ -86,6 +86,11 @@ class appointment(models.Model):
     Schedule_appointment = models.ForeignKey(schedule, on_delete=models.CASCADE,null=True)
     status = models.IntegerField(default=0)
 
+    def __int__(self):
+        return self.physician_name
+
+
+
 
 
 

@@ -609,8 +609,10 @@ def accept_appointment(request,id):
     return redirect('approve_reject_appointment')
 
 def reject_appointment(request,id):
-    appointment.objects.get(id=id).delete()
-    return redirect(request,'approve_reject_appointment')
+    data = appointment.objects.get(id=id)
+    data.status = 2
+    data.save()
+    return redirect('approve_reject_appointment')
 
 def view_approved(request,):
     data = appointment.objects.filter(status=1,physician_name=request.user)

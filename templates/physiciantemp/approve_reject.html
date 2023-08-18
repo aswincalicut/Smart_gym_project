@@ -8,7 +8,6 @@
             <tr>
                 <th>SI NO</th>
                 <th>Customer name</th>
-<!--                <th>Physician name</th>-->
                 <th>Start time</th>
                 <th>End time</th>
                 <th>Date</th>
@@ -22,7 +21,6 @@
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{i.physician_name.username}}</td>
-<!--                    <td>{{i.physician_name.username}}</td>-->
                     <td>{{i.Schedule_appointment.start_time}}</td>
                     <td>{{i.Schedule_appointment.end_time}}</td>
                     <td>{{i.Schedule_appointment.date}}</td>
@@ -31,11 +29,15 @@
                         <a href="{% url 'accept_appointment' i.id %}" type="submit" class="btn btn-success">Approve</a>
                         {% elif i.status == 1 %}
                         <a style="color:white;" type="submit" class="btn btn-primary">Approved</a>
-                         {% endif %}
+                        {% endif %}
                     </td>
-                    <td>
-                        <a href="{% url 'reject_appointment' i.id %}" type="submit" class="btn btn-danger">Reject</a>
 
+                    <td>
+                        {% if i.status == 0 %}
+                        <a href="{% url 'reject_appointment' i.id %}" type="submit" class="btn btn-danger">Reject</a>
+                        {% elif i.status == 2 %}
+                        <a style="color:white" type="submit" class="btn btn-danger">Rejected</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
