@@ -12,8 +12,8 @@
         <th>CUSTOMER</th>
         <th>ATTENDANCE</th>
         <th>DATE</th>
-<!--        <th>UPDATE</th>-->
-<!--        <th>DELETE</th>-->
+        <th>UPDATE</th>
+        <th>DELETE</th>
       </tr>
       </thead>
 
@@ -24,8 +24,8 @@
         <td>{{i.customer}}</td>
         <td>{{i.attendance}}</td>
         <td>{{i.date}}</td>
-<!--        <td><a type="submit" class="btn btn-success" href="{% url 'update_attendance' i.id %}">Update</a></td>-->
-<!--        <td><a type="submit" class="btn btn-danger" href="{% url 'delete_attendance' i.id %}">delete</a></td>-->
+        <td><a type="submit" class="btn btn-success" href="{% url 'update_instructor_attendance' i.id %}">Update</a></td>
+        <td><a type="submit" class="btn btn-danger" href="{% url 'delete_instructor_attendance' i.id %}">delete</a></td>
       </tr>
       {% endfor %}
       </tbody>

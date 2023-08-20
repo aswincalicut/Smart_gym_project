@@ -372,7 +372,7 @@ def update_attendance(request,id):
         form = attendanceform(request.POST,instance=data)
         if form.is_valid():
             form.save()
-            return redirect('view_attendance')
+            return redirect('viewcustomer_attendance')
     return render(request,'attendance/update_attendance.html',{'form':form})
 #
 #
@@ -472,14 +472,14 @@ def batch_details(request):
 
 
 
-# def add_attendance(request):
-#     form = attendanceform()
-#     if request.method == 'POST':
-#         form = attendanceform(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('instructor_viewattendance')
-#     return render(request,'instructortemp/add_attendance.html',{'form':form,})
+def add_attendance(request):
+    form = attendanceform()
+    if request.method == 'POST':
+        form = attendanceform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('viewinstructor_attendance')
+    return render(request,'instructortemp/add_attendance.html',{'form':form,})
 
 # def viewattendance(request):
 #     value_list = Attendance.objects.values_list('date', flat=True).distinct()
@@ -513,19 +513,19 @@ def batch_details(request):
 
 
 
-# def update_instructor_attendance(request,id):
-#     data = Attendance.objects.get(id=id)
-#     form = attendanceform(instance=data)
-#     if request.method=='POST':
-#         form = attendanceform(request.POST,instance=data)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('instructor_viewattendance')
-#     return render(request,'instructortemp/update_attendance.html',{'form':form})
+def update_instructor_attendance(request,id):
+    data = attendancemodel.objects.get(id=id)
+    form = attendanceform(instance=data)
+    if request.method=='POST':
+        form = attendanceform(request.POST,instance=data)
+        if form.is_valid():
+            form.save()
+            return redirect('viewinstructor_attendance')
+    return render(request,'instructortemp/update_attendance.html',{'form':form})
 
-# def delete_instructor_attendance(request,id):
-#     attendancemodel.objects.get(id=id).delete()
-#     return redirect('instructor_viewattendance')
+def delete_instructor_attendance(request,id):
+    attendancemodel.objects.get(id=id).delete()
+    return redirect('viewinstructor_attendance')
 
 def checkout_customers(request):
     data = customuser.objects.filter(is_customer=True)

@@ -72,9 +72,9 @@ urlpatterns = [
     path('instructor_panel',views.instructor_panel,name='instructor_panel'),
     path('batch_details',views.batch_details,name='batch_details'),
     # path('viewattendance',views.viewattendance,name='viewattendance'),
-    # path('add_attendance/<int:id>/',views.add_attendance,name='add_attendance'),
-    # path('update_instructor_attendance/<int:id>/',views.update_instructor_attendance,name='update_instructor_attendance'),
-    # path('delete_instructor_attendance/<int:id>/',views.delete_instructor_attendance,name='delete_instructor_attendance'),
+    path('add_attendance',views.add_attendance,name='add_attendance'),
+    path('update_instructor_attendance/<int:id>/',views.update_instructor_attendance,name='update_instructor_attendance'),
+    path('delete_instructor_attendance/<int:id>/',views.delete_instructor_attendance,name='delete_instructor_attendance'),
     path('checkout_customers',views.checkout_customers,name='checkout_customers'),
     # path('instructor_viewCustomer',views.instructor_viewCustomer,name='instructor_viewCustomer'),
 
