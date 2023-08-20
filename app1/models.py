@@ -50,7 +50,7 @@ class firstaid(models.Model):
 
 class attendancemodel(models.Model):
     attendance = models.CharField(max_length=9)
-    customer = models.CharField(max_length=20)
+    customer = models.ForeignKey(customuser(),on_delete=models.CASCADE,limit_choices_to={'is_customer':True})
     date = models.DateField()
 
     def __str__(self):
@@ -58,7 +58,7 @@ class attendancemodel(models.Model):
 
 
 class Bill(models.Model):
-    name = models.ForeignKey(customuser,on_delete=models.CASCADE)
+    name = models.ForeignKey(customuser,on_delete=models.CASCADE,limit_choices_to={'is_customer':True})
     bill_date = models.DateTimeField(default=timezone.now)
     amount = models.IntegerField()
     paid_on = models.DateField(auto_now=True)
