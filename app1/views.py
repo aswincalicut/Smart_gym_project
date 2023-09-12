@@ -8,68 +8,73 @@ from django.shortcuts import render, redirect
 from django.template.loader import get_template
 from .utils import render_to_pdf
 
-
-
 from app1.forms import customuserform, instructorform, physicianform, batchform, machineform, complaintsform, \
-    serviceform, replyform, paybillform, billform, scheduleform, attendanceform, firstaidform, appointmentform
+    serviceform, replyform, paybillform, billform, scheduleform, attendanceform, firstaidform, appointmentform, \
+    medicalDoubtform, medicalReplyForm
 from app1.models import customuser, batch, equipments, complaints, servicemodel, Bill, creditcard, \
-    schedule, appointment, attendancemodel, firstaid
+    schedule, appointment, attendancemodel, firstaid, medicalDoubt
 
 
 # Create your views here.
 def home(request):
-    return render(request,'index.html')
+    return render(request, 'index.html')
 
 
 ########################### ADMIN VIEWS ############################
 def admin_home(request):
     if request.user.is_superuser:
-        return render(request,'admintemp/dashmin.html')
-    return render(request,"please login to access")
+        return render(request, 'admintemp/dashmin.html')
+    return render(request, "please login to access")
+
 
 ####################### instructor section start #######################
 
 def instructor_register(request):
     form = instructorform()
     if request.method == 'POST':
-        form = instructorform(request.POST,request.FILES)
+        form = instructorform(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_instructor=True
+            user.is_instructor = True
             user.save()
-            messages.info(request,'instructor registered successfully')
+            messages.info(request, 'instructor registered successfully')
             return redirect('view_instructor')
-    return render(request,'admintemp/instructor_register.html',{'form':form})
+    return render(request, 'admintemp/instructor_register.html', {'form': form})
+
 
 def view_instructor(request):
     data = customuser.objects.filter(is_instructor=True)
-    return render(request,'admintemp/instructor_view.html',{'data':data})
+    return render(request, 'admintemp/instructor_view.html', {'data': data})
 
-def accept_instructor(request,id):
-    data=customuser.objects.get(id=id)
-    data.status=1
+
+def accept_instructor(request, id):
+    data = customuser.objects.get(id=id)
+    data.status = 1
     data.save()
     return redirect('view_instructor')
+
 
 def accepted_instructors(request):
     accepted_users = customuser.objects.filter(status=1)
     context = {'data': accepted_users}
     return render(request, 'admintemp/accepted_instructors.html', context)
 
-def update_instructor(request,id):
+
+def update_instructor(request, id):
     data = customuser.objects.get(id=id)
     form = instructorform(instance=data)
     if request.method == 'POST':
-        form = instructorform(request.POST or None,request.FILES or None,instance=data or None)
+        form = instructorform(request.POST or None, request.FILES or None, instance=data or None)
         if form.is_valid():
             form.save()
             return redirect('view_instructor')
-    return render(request,'admintemp/instructor_update.html',{'form':form})
+    return render(request, 'admintemp/instructor_update.html', {'form': form})
 
 
-def delete_instructor(request,id):
+def delete_instructor(request, id):
     customuser.objects.get(id=id).delete()
     return redirect('accepted_instructors')
+
 
 ##################### instructor section end ############################
 
@@ -82,23 +87,19 @@ def customer_register(request):
         form = customuserform(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_customer=True
+            user.is_customer = True
             user.save()
-            messages.info(request,'customer  registered successfully')
+            messages.info(request, 'customer  registered successfully')
             return redirect('view_customer')
-    return render(request,'customer_register.html',{'form':form})
+    return render(request, 'customer_register.html', {'form': form})
 
 
 def view_customer(request):
     data = customuser.objects.filter(is_customer=True)
-    return render(request,'admintemp/customer_view.html', {'data':data})
+    return render(request, 'admintemp/customer_view.html', {'data': data})
 
 
-
-
-
-
-def update_customer(request,id):
+def update_customer(request, id):
     data = customuser.objects.get(id=id)
     form = customuserform(instance=data)
     if request.method == 'POST':
@@ -106,11 +107,13 @@ def update_customer(request,id):
         if form.is_valid():
             form.save()
             return redirect('view_customer')
-    return render(request,'admintemp/customer_update.html',{'form':form})
+    return render(request, 'admintemp/customer_update.html', {'form': form})
 
-def delete_customer(request,id):
+
+def delete_customer(request, id):
     customuser.objects.get(id=id).delete()
     return redirect('view_customer')
+
 
 ########################## customer section end ##########################
 
@@ -123,15 +126,17 @@ def physician_register(request):
             user = form.save(commit=False)
             user.is_physician = True
             user.save()
-            messages.info(request,'physician registered successfully')
+            messages.info(request, 'physician registered successfully')
             return redirect('view_physician')
-    return render(request,'admintemp/physician_register.html',{'form':form})
+    return render(request, 'admintemp/physician_register.html', {'form': form})
+
 
 def view_physician(request):
     data = customuser.objects.filter(is_physician=True)
-    return render(request,'admintemp/physician_view.html',{'data':data})
+    return render(request, 'admintemp/physician_view.html', {'data': data})
 
-def update_physician(request,id):
+
+def update_physician(request, id):
     data = customuser.objects.get(id=id)
     form = physicianform(instance=data)
     if request.method == 'POST':
@@ -139,11 +144,13 @@ def update_physician(request,id):
         if form.is_valid():
             form.save()
             return redirect('view_physician')
-    return render(request,'admintemp/physician_update.html', {'form':form})
+    return render(request, 'admintemp/physician_update.html', {'form': form})
 
-def delete_physician(request,id):
+
+def delete_physician(request, id):
     customuser.objects.get(id=id).delete()
     return redirect('view_physician')
+
 
 ######################## physician section end #######################
 
@@ -153,9 +160,9 @@ def log(request):
     if request.method == 'POST':
         username = request.POST.get('uname')
         password = request.POST.get('pass')
-        user = authenticate(request,username=username,password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request,user)
+            login(request, user)
             if user.is_superuser:
                 return redirect('admin_home')
             elif user.is_customer:
@@ -165,8 +172,9 @@ def log(request):
             elif user.is_physician:
                 return redirect('physician_panel')
         else:
-            messages.info(request,'invalid credentials')
-    return render(request,'login.html')
+            messages.info(request, 'invalid credentials')
+    return render(request, 'login.html')
+
 
 def logout_user(request):
     logout(request)
@@ -174,10 +182,12 @@ def logout_user(request):
 
 
 def customer_log(request):
-    return render(request,'customer/customer_log.html')
+    return render(request, 'customer/customer_log.html')
+
 
 def sign(request):
-    return render(request,'sign-up.html')
+    return render(request, 'sign-up.html')
+
 
 ####################### log/sign section end ###########################
 
@@ -190,25 +200,29 @@ def batch_register(request):
             form.save()
             messages.info(request, 'batch registered successfully')
             return redirect('view_batch')
-    return render(request,'batchinfo/batch_register.html',{'form':form})
+    return render(request, 'batchinfo/batch_register.html', {'form': form})
+
 
 def view_batch(request):
     data = batch.objects.filter()
-    return render(request,'batchinfo/batch_view.html',{'data':data})
+    return render(request, 'batchinfo/batch_view.html', {'data': data})
 
-def update_batch(request,id):
+
+def update_batch(request, id):
     data = batch.objects.get(id=id)
     form = batchform(instance=data)
-    if request.method =='POST':
+    if request.method == 'POST':
         form = batchform(request.POST, instance=data)
         if form.is_valid():
             form.save()
             return redirect('view_batch')
-    return render(request,'batchinfo/update_batch.html',{'form':form})
+    return render(request, 'batchinfo/update_batch.html', {'form': form})
 
-def delete_batch(request,id):
+
+def delete_batch(request, id):
     batch.objects.get(id=id).delete()
     return redirect('view_batch')
+
 
 ####################### batch section end ###########################
 
@@ -217,29 +231,33 @@ def delete_batch(request,id):
 def add_equipment(request):
     form = machineform()
     if request.method == 'POST':
-        form = machineform(request.POST,request.FILES)
+        form = machineform(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('view_equipment')
-    return render(request,'equipments/add_equipment.html',{'form':form})
+    return render(request, 'equipments/add_equipment.html', {'form': form})
+
 
 def view_equipment(request):
     data = equipments.objects.filter()
-    return render(request,'equipments/view_equipment.html',{'data':data})
+    return render(request, 'equipments/view_equipment.html', {'data': data})
 
-def update_equipment(request,id):
+
+def update_equipment(request, id):
     data = equipments.objects.get(id=id)
     form = machineform(instance=data)
     if request.method == 'POST':
-        form = machineform(request.POST or None,request.FILES or None,instance=data or None)
+        form = machineform(request.POST or None, request.FILES or None, instance=data or None)
         if form.is_valid():
             form.save()
             return redirect('view_equipment')
-    return render(request,'equipments/update_equipment.html',{'form':form})
+    return render(request, 'equipments/update_equipment.html', {'form': form})
 
-def delete_equipment(request,id):
+
+def delete_equipment(request, id):
     equipments.objects.get(id=id).delete()
     return redirect('view_equipment')
+
 
 ####################### equipment section end ########################
 
@@ -247,15 +265,18 @@ def delete_equipment(request,id):
 
 @login_required
 def customer_panel(request):
-    return render(request,'customer/customer_panel.html')
+    return render(request, 'customer/customer_panel.html')
+
 
 def customerview_equipment(request):
-    data = equipments.objects.filter()
-    return render(request,'customer/customer_equipment.html',{'data':data})
+    data = equipments.objects.all()
+    return render(request, 'customer/customer_equipment.html', {'data': data})
+
 
 def customerbatch_details(request):
-    data = batch.objects.filter()
-    return render(request,'customer/customerbatch_details.html',{'data':data})
+    data = batch.objects.all()
+    return render(request, 'customer/customerbatch_details.html', {'data': data})
+
 
 #################### complaints section start #################################
 
@@ -266,45 +287,51 @@ def complaint_register(request):
         if form.is_valid():
             form.save()
             return redirect('view_complaint')
-    return render(request,'complaints/complaint_reg.html',{'form':form})
+    return render(request, 'complaints/complaint_reg.html', {'form': form})
+
 
 def view_complaint(request):
     data = complaints.objects.filter()
-    return render(request,'complaints/view_complaints.html',{'data':data})
+    return render(request, 'complaints/view_complaints.html', {'data': data})
 
-def delete_complaint(request,id):
+
+def delete_complaint(request, id):
     complaints.objects.get(id=id).delete()
     return redirect('view_complaint')
 
+
 def admin_viewcomplaint(request):
     data = complaints.objects.all()
-    return render(request,'complaints/view_complaint_admin.html',{'data':data})
+    return render(request, 'complaints/view_complaint_admin.html', {'data': data})
 
-def status_reply(request,id):
+
+def status_reply(request, id):
     data = complaints.objects.get(id=id)
     data.status = 1
     data.save()
     return redirect('admin_viewcomplaint')
 
 
-
-def complaint_reply(request,id):
+def complaint_reply(request, id):
     data = complaints.objects.get(id=id)
     form = replyform()
-    if request.method=='POST':
-        form = replyform(request.POST,instance=data)
+    if request.method == 'POST':
+        form = replyform(request.POST, instance=data)
         if form.is_valid():
             form.save()
             return redirect('admin_viewcomplaint')
-    return render(request,'complaints/complaint_reply.html',{'form':form})
+    return render(request, 'complaints/complaint_reply.html', {'form': form})
+
 
 def replysee(request):
     data = complaints.objects.filter()
-    return render(request,'complaints/reply_see.html',{'data':data})
+    return render(request, 'complaints/reply_see.html', {'data': data})
+
 
 def customerview_reply(request):
     data = complaints.objects.all()
-    return render(request,'complaints/complaint_reply_view.html',{'data':data})
+    return render(request, 'complaints/complaint_reply_view.html', {'data': data})
+
 
 #################### complaints section end ###############################
 
@@ -313,33 +340,38 @@ def customerview_reply(request):
 def register_service(request):
     form = serviceform()
     if request.method == 'POST':
-        form = serviceform(request.POST,request.FILES)
+        form = serviceform(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('view_service')
-    return render(request,'services/service_register.html',{'form':form})
+    return render(request, 'services/service_register.html', {'form': form})
+
 
 def view_service(request):
     data = servicemodel.objects.filter()
-    return render(request,'services/view_service.html',{'data':data})
+    return render(request, 'services/view_service.html', {'data': data})
+
 
 def customerview_service(request):
     data = servicemodel.objects.filter()
-    return render(request,'services/customer_view.html',{'data':data})
+    return render(request, 'services/customer_view.html', {'data': data})
 
-def update_service(request,id):
+
+def update_service(request, id):
     data = servicemodel.objects.get(id=id)
     form = serviceform(instance=data)
     if request.method == 'POST':
-        form = serviceform(request.POST,instance=data)
+        form = serviceform(request.POST, instance=data)
         if form.is_valid():
             form.save()
             return redirect('view_service')
-    return render(request,'services/update_service.html',{'form':form})
+    return render(request, 'services/update_service.html', {'form': form})
 
-def delete_service(request,id):
+
+def delete_service(request, id):
     servicemodel.objects.get(id=id).delete()
     return redirect('view_service')
+
 
 #################### service section end ###############################
 
@@ -352,31 +384,41 @@ def attendance_register(request):
         if form.is_valid():
             form.save()
             return redirect('viewcustomer_attendance')
-    return render(request,'attendance/customer_attendance.html',{'form':form})
+    return render(request, 'attendance/customer_attendance.html', {'form': form})
+
+
 #
 def viewcustomer_attendance(request):
     data = attendancemodel.objects.all()
-    return render(request,'attendance/customerview_attendance.html',{'data':data})
+    return render(request, 'attendance/customerview_attendance.html', {'data': data})
+
+
 def viewinstructor_attendance(request):
     data = attendancemodel.objects.all()
-    return render(request,'attendance/instructorview_attendance.html',{'data':data})
+    return render(request, 'attendance/instructorview_attendance.html', {'data': data})
+
+
 #
 def view_attendance(request):
     data = attendancemodel.objects.filter(customer=request.user)
-    return render(request,'attendance/customer_view.html',{'data':data})
+    return render(request, 'attendance/customer_view.html', {'data': data})
+
+
 #
-def update_attendance(request,id):
+def update_attendance(request, id):
     data = attendancemodel.objects.get(id=id)
     form = attendanceform(instance=data)
     if request.method == 'POST':
-        form = attendanceform(request.POST,instance=data)
+        form = attendanceform(request.POST, instance=data)
         if form.is_valid():
             form.save()
             return redirect('viewcustomer_attendance')
-    return render(request,'attendance/update_attendance.html',{'form':form})
+    return render(request, 'attendance/update_attendance.html', {'form': form})
+
+
 #
 #
-def delete_attendance(request,id):
+def delete_attendance(request, id):
     attendancemodel.objects.get(id=id).delete()
     return redirect('viewcustomer_attendance')
 
@@ -390,74 +432,76 @@ def register_payment(request):
             user.is_customer = True
             user.save()
             return redirect('view_payment')
-    return render(request,'payments/customer_payment.html',{'form':form})
+    return render(request, 'payments/customer_payment.html', {'form': form})
 
 
 def view_payment(request):
     data = Bill.objects.all()
-    return render(request,'payments/view_payment.html',{'data':data})
+    return render(request, 'payments/view_payment.html', {'data': data})
 
 
-
-def delete_payment(request,id):
+def delete_payment(request, id):
     Bill.objects.get(id=id).delete()
     return redirect('view_payment')
+
 
 # def customerview_payment(request):
 #     data = Bill.objects.filter(name=request.user)
 #     return render(request,'payments/customerview_payment.html',{'data':data})
 
-def pay_bill(request,id):
+def pay_bill(request, id):
     bi = Bill.objects.get(id=id)
     if request.method == 'POST':
         card = request.POST.get('card')
         cvv = request.POST.get('cvv')
         expiry = request.POST.get('exp')
-        creditcard(card_no=card,card_cvv=cvv,expiry_date=expiry,bill=bi).save()
+        creditcard(card_no=card, card_cvv=cvv, expiry_date=expiry, bill=bi).save()
         bi.status = 1
         bi.save()
-        messages.info(request,'Bill paid succesfully')
+        messages.info(request, 'Bill paid succesfully')
         return redirect('bill_history')
-    return render(request,'payments/pay_bill.html')
+    return render(request, 'payments/pay_bill.html')
 
 
-def pay_in_direct(request,id):
+def pay_in_direct(request, id):
     bi = Bill.objects.get(id=id)
     bi.status = 2
     bi.save()
-    messages.info(request,'Choosed to pay Fee Direct in Office')
+    messages.info(request, 'Choosed to pay Fee Direct in Office')
     return redirect('bill_history')
+
 
 def bill_history(request):
     u = request.user
     print(u)
     data = customuser.objects.get(username=request.user)
     print(data)
-    bill = Bill.objects.filter(name=data,status__in=[0,1,2])
+    bill = Bill.objects.filter(name=data, status__in=[0, 1, 2])
     print(bill)
     # u = customuser.objects.get(name=request.user)
     # bill = Bill.objects.filter(name=u, status__in=[1,2])
-    return render(request, 'payments/view_bill_history.html',{'bill': bill})
+    return render(request, 'payments/view_bill_history.html', {'bill': bill})
+
 
 def admin_view_payment(request):
     data = Bill.objects.all()
-    return render(request,'payments/admin_view_payments.html',{'data':data})
+    return render(request, 'payments/admin_view_payments.html', {'data': data})
 
 
-def get_invoice(request,id):
+def get_invoice(request, id):
     data = customuser.objects.get(username=request.user)
     bill = Bill.objects.get(id=id)
     template = get_template('payments/invoice.html')
-    html = template.render({'data':bill})
-    pdf = render_to_pdf('payments/invoice.html',{'data':bill})
+    html = template.render({'data': bill})
+    pdf = render_to_pdf('payments/invoice.html', {'data': bill})
 
     return HttpResponse(pdf, content_type='application/pdf')
 
 
-def view_invoice(request,id):
+def view_invoice(request, id):
     u = customuser.objects.get(username=request.user)
     bill = Bill.objects.filter(id=id)
-    return render(request,'payments/invoice.html',{'data':bill})
+    return render(request, 'payments/invoice.html', {'data': bill})
 
 
 #################### instructor panel start ###########################
@@ -471,7 +515,6 @@ def batch_details(request):
     return render(request, 'instructortemp/batch_details.html', {'data': data})
 
 
-
 def add_attendance(request):
     form = attendanceform()
     if request.method == 'POST':
@@ -479,57 +522,29 @@ def add_attendance(request):
         if form.is_valid():
             form.save()
             return redirect('viewinstructor_attendance')
-    return render(request,'instructortemp/add_attendance.html',{'form':form,})
-
-# def viewattendance(request):
-#     value_list = Attendance.objects.values_list('date', flat=True).distinct()
-#     attendance = {}
-#     for value in value_list:
-#         attendance[value] = Attendance.objects.filter(data=value)
-#         print(attendance[value])
-#     return render(request,'instructortemp/view_attendance.html',{'attendance':attendance})
-#
-# def instructor_viewCustomer(request):
-#     data = customuser.objects.filter(is_customer=True)
-#     return render(request,'instructortemp/view_all.html',{"data":data})
-#
-# def add_attendance(request,id):
-#     user = customuser.objects.get(id=id)
-#     att = Attendance.objects.filter(customer=user,date=date.today())
-#     if att.exists():
-#         messages.info(request,"todays attendance already marked")
-#         return redirect('instructor_viewattendance')
-#     else:
-#         if request.method == 'POST':
-#             attndc = request.POST.get('attendance')
-#             attendance = Attendance()
-#             attendance.attendance =attndc
-#             attendance.customer=user
-#             attendance.date=date.today()
-#             return redirect('viewattendance')
-#         return render(request,'instructortemp/mark_attendance.html')
+    return render(request, 'instructortemp/add_attendance.html', {'form': form, })
 
 
 
-
-
-def update_instructor_attendance(request,id):
+def update_instructor_attendance(request, id):
     data = attendancemodel.objects.get(id=id)
     form = attendanceform(instance=data)
-    if request.method=='POST':
-        form = attendanceform(request.POST,instance=data)
+    if request.method == 'POST':
+        form = attendanceform(request.POST, instance=data)
         if form.is_valid():
             form.save()
             return redirect('viewinstructor_attendance')
-    return render(request,'instructortemp/update_attendance.html',{'form':form})
+    return render(request, 'instructortemp/update_attendance.html', {'form': form})
 
-def delete_instructor_attendance(request,id):
+
+def delete_instructor_attendance(request, id):
     attendancemodel.objects.get(id=id).delete()
     return redirect('viewinstructor_attendance')
 
+
 def checkout_customers(request):
     data = customuser.objects.filter(is_customer=True)
-    return render(request,'instructortemp/checkout_customer.html',{'data':data})
+    return render(request, 'instructortemp/checkout_customer.html', {'data': data})
 
 
 #################### instructor panel end ###########################
@@ -537,90 +552,96 @@ def checkout_customers(request):
 #################### physician panel start ###########################
 
 def physician_panel(request):
-    return render(request,'physiciantemp/physician_panel.html')
+    return render(request, 'physiciantemp/physician_panel.html')
 
 
 @login_required
 def schedule_customer(request):
     username = request.user.username
     if request.user.is_physician:
-        form = scheduleform(initial={'physician_name':request.user})
-        form.fields['physician_name'].queryset = customuser.objects.filter(is_physician=True,username=request.user.username)
+        form = scheduleform(initial={'physician_name': request.user})
+        form.fields['physician_name'].queryset = customuser.objects.filter(is_physician=True,
+                                                                           username=request.user.username)
         if request.method == 'POST':
             form = scheduleform(request.POST)
             if form.is_valid():
                 form.save()
                 return redirect('view_allschedule')
-        return render(request,'physiciantemp/schedule_customer.html',{'form':form, 'username':username})
+        return render(request, 'physiciantemp/schedule_customer.html', {'form': form, 'username': username})
 
 
 def view_allschedule(request):
     data = schedule.objects.all()
-    return render(request,'physiciantemp/schedule_all.html',{'data':data})
+    return render(request, 'physiciantemp/schedule_all.html', {'data': data})
 
-def update_allschedule(request,id):
+
+def update_allschedule(request, id):
     data = schedule.objects.get(id=id)
-    form = scheduleform( instance=data, initial={'physician_name':request.user})
-    form.fields['physician_name'].queryset = customuser.objects.filter(is_physician=True,username=request.user.username)
+    form = scheduleform(instance=data, initial={'physician_name': request.user})
+    form.fields['physician_name'].queryset = customuser.objects.filter(is_physician=True,
+                                                                       username=request.user.username)
     if request.method == 'POST':
-        form = scheduleform(request.POST,instance=data)
+        form = scheduleform(request.POST, instance=data)
         if form.is_valid():
             form.save()
             return redirect(view_allschedule)
-    return render(request,'physiciantemp/update_scheduleall.html',{'form':form})
+    return render(request, 'physiciantemp/update_scheduleall.html', {'form': form})
 
-def delete_allschedule(request,id):
+
+def delete_allschedule(request, id):
     schedule.objects.get(id=id).delete()
     return redirect('view_allschedule')
 
 
 def customer_view_schedule(request):
     data = schedule.objects.all()
-    return render(request,'physiciantemp/customer_view_schedule.html',{'data': data})
+    return render(request, 'physiciantemp/customer_view_schedule.html', {'data': data})
+
 
 def view_physician_schedules(request):
     user = request.user
     data = schedule.objects.filter(physician_name=user)
-    return render(request,'physiciantemp/physician_view_appointment.html',{'data':data})
+    return render(request, 'physiciantemp/physician_view_appointment.html', {'data': data})
 
-def take_appointment(request,id):
+
+def take_appointment(request, id):
     s = schedule.objects.get(id=id)
     c = customuser.objects.get(username=request.user)
     appo = appointment.objects.filter(physician_name=c, Schedule_appointment=s)
     if appo.exists():
-        messages.info(request,'You have already requested for this schedule')
+        messages.info(request, 'You have already requested for this schedule')
         return redirect('customer_view_schedule')
     else:
         if request.method == 'POST':
             obj = appointment(physician_name=c, Schedule_appointment=s)
             obj.save()
-            messages.info(request,'Appointment requested successfully')
+            messages.info(request, 'Appointment requested successfully')
             return redirect('customer_view_schedule')
-    return render(request,'customer/take_appointment.html',{'Schedule':s})
+    return render(request, 'customer/take_appointment.html', {'Schedule': s})
+
 
 def approve_reject_appointment(request):
     data = appointment.objects.all()
-    return render(request,'physiciantemp/approve_reject.html',{'data':data})
+    return render(request, 'physiciantemp/approve_reject.html', {'data': data})
 
-def accept_appointment(request,id):
+
+def accept_appointment(request, id):
     data = appointment.objects.get(id=id)
     data.status = 1
     data.save()
     return redirect('approve_reject_appointment')
 
-def reject_appointment(request,id):
+
+def reject_appointment(request, id):
     data = appointment.objects.get(id=id)
     data.status = 2
     data.save()
     return redirect('approve_reject_appointment')
 
-def view_approved(request,):
-    data = appointment.objects.filter(status=1,physician_name=request.user)
-    return render(request,'customer/view_approved.html',{'data':data})
 
-
-
-
+def view_approved(request, ):
+    data = appointment.objects.filter(status=1, physician_name=request.user)
+    return render(request, 'customer/view_approved.html', {'data': data})
 
 
 ######################## first adid ###################################
@@ -628,27 +649,60 @@ def view_approved(request,):
 def add_firstaid(request):
     form = firstaidform
     if request.method == 'POST':
-        form = firstaidform(request.POST,request.FILES)
+        form = firstaidform(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('view_firstaid')
-    return render(request,'physiciantemp/add_firstaid.html',{'form':form})
+    return render(request, 'physiciantemp/add_firstaid.html', {'form': form})
+
 
 def view_firstaid(request):
     data = firstaid.objects.all()
-    return render(request,'physiciantemp/view_firstaid.html',{'data':data})
+    return render(request, 'physiciantemp/view_firstaid.html', {'data': data})
+
+def customer_view_firstaid(request):
+    data = firstaid.objects.all()
+    return render(request,'customer/customer_view_firstaid.html',{'data':data})
 
 
+def ask_medical_doubt(request):
+    form = medicalDoubtform
+    if request.method == 'POST':
+        form = medicalDoubtform(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_view_medical_doubt')
+    return render(request,'medical/ask_medical_doubt.html',{'form':form})
+
+def customer_view_medical_doubt(request):
+    data = medicalDoubt.objects.all()
+    return render(request,'medical/customer_view_medical_doubt.html',{'data':data})
+
+def physician_view_doubt(request):
+    data = medicalDoubt.objects.all()
+    return render(request,'medical/physician_view_medical_doubt.html',{'data':data})
+
+def physician_reply_doubt(request,id):
+    data = medicalDoubt.objects.get(id=id)
+    form = medicalReplyForm
+    if request.method == 'POST':
+        form = medicalReplyForm(request.POST, instance=data)
+        if form.is_valid():
+            form.save()
+            return redirect('physician_view_doubt')
+    return render(request,'medical/physician_reply_doubt.html',{'form':form})
 
 
+def medical_doubt_reply(request, id):
+    data = medicalDoubt.objects.get(id=id)
+    data.status = 1
+    data.save()
+    return redirect('physician_view_doubt')
 
+def customer_view_doubt_reply(request):
+    data = medicalDoubt.objects.all()
+    return render(request,'medical/customerview_medical_doubt_reply.html',{'data':data})
 
-
-
-
-
-
-
-
-
-
+def medical_doubt_delete(request,id):
+    medicalDoubt.objects.get(id=id).delete()
+    return redirect('customer_view_medical_doubt')

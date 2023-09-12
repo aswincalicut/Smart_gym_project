@@ -223,9 +223,9 @@
 <!--                  </a>-->
 <!--                </li>-->
                 <li class="menu-item">
-                  <a href="auth-register-basic.html" class="menu-link">
-                    <div data-i18n="Basic">Batch Instructor</div>
-                  </a>
+<!--                  <a href="#" class="menu-link">-->
+<!--                    <div data-i18n="Basic">Batch Instructor</div>-->
+<!--                  </a>-->
                 </li>
                 <li class="menu-item">
                   <a href="{% url 'customerbatch_details' %}" class="menu-link">
@@ -387,6 +387,27 @@
             </li>
 
 
+
+              <li class="menu-item">
+              <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i style="margin-right:10px; color:#0d0830" class='bx bx-info-circle' ></i>
+                <div data-i18n="Extended UI">First Aid</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+<!--                  <a href="extended-ui-perfect-scrollbar.html" class="menu-link">-->
+<!--                    <div data-i18n="Perfect Scrollbar">Add Service</div>-->
+<!--                  </a>-->
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'customer_view_firstaid' %}" class="menu-link">
+                    <div data-i18n="Text Divider">View First Aid</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
               <li class="menu-item">
               <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i style="margin-right:10px; color:#0d0830" class='bx bx-info-circle' ></i>
@@ -407,6 +428,36 @@
                   <li class="menu-item">
                   <a href="{% url 'view_approved' %}"  class="menu-link">
                     <div data-i18n="Text Divider">View Approved</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
+
+
+
+
+              <li class="menu-item">
+              <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i style="margin-right:10px; color:#0d0830" class='bx bx-info-circle' ></i>
+                <div data-i18n="Extended UI">MEDICAL DOUBTS</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+<!--                  <a href="extended-ui-perfect-scrollbar.html" class="menu-link">-->
+<!--                    <div data-i18n="Perfect Scrollbar">Add Service</div>-->
+<!--                  </a>-->
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'ask_medical_doubt' %}" class="menu-link">
+                    <div data-i18n="Text Divider">Ask Doubt</div>
+                  </a>
+                </li>
+
+                  <li class="menu-item">
+                  <a href="{% url 'customer_view_doubt_reply' %}"  class="menu-link">
+                    <div data-i18n="Text Divider">View Reply</div>
                   </a>
                 </li>
               </ul>

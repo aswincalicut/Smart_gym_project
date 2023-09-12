@@ -7,18 +7,24 @@
       <thead>
       <tr>
         <th>SI NO</th>
-        <th>Name</th>
-        <th>Image</th>
+        <th>SUBJECT</th>
+        <th>DESCRIPTION</th>
+        <th>DATE</th>
+        <th>Reply</th>
       </tr>
       </thead>
 
       <tbody>
       {% for i in data %}
+
       <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{i.name}}</td>
-        <td><img height="100px" width="100px" src="{{i.image.url}}"></td>
+        <td>{{i.subject}}</td>
+        <td>{{i.description}}</td>
+        <td>{{i.date}}</td>
+        <td><a href="{% url 'physician_reply_doubt' i.id %}" type="submit" class="btn btn-success">Reply</a></td>
       </tr>
+
       {% endfor %}
       </tbody>
 

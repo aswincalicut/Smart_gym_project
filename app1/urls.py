@@ -110,7 +110,15 @@ urlpatterns = [
     path('view_invoice/<int:id>/',views.view_invoice,name='view_invoice'),
     path('get_invoice/<int:id>/',views.get_invoice,name='get_invoice'),
     path('add_firstaid',views.add_firstaid,name='add_firstaid'),
-    path('view_firstaid',views.view_firstaid,name='view_firstaid')
+    path('view_firstaid',views.view_firstaid,name='view_firstaid'),
+    path('customer_view_firstaid',views.customer_view_firstaid,name='customer_view_firstaid'),
 
+    path('ask_medical_doubt',views.ask_medical_doubt,name='ask_medical_doubt'),
+    path('customer_view_medical_doubt',views.customer_view_medical_doubt,name='customer_view_medical_doubt'),
+    path('physician_view_doubt',views.physician_view_doubt,name='physician_view_doubt'),
+    path('physician_reply_doubt/<int:id>/',views.physician_reply_doubt,name='physician_reply_doubt'),
+    path('medical_doubt_reply/<int:id>/',views.medical_doubt_reply,name='medical_doubt_reply'),
+    path('customer_view_doubt_reply',views.customer_view_doubt_reply,name='customer_view_doubt_reply'),
+    path('medical_doubt_delete/<int:id>/',views.medical_doubt_delete,name='medical_doubt_delete')
 
 ]

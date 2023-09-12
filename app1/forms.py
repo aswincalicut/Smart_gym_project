@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 
 from app1.models import customuser, batch, equipments, complaints, servicemodel, \
-    creditcard, Bill, schedule, attendancemodel, firstaid, appointment
+    creditcard, Bill, schedule, attendancemodel, firstaid, appointment, medicalDoubt
 from tempus_dominus.widgets import TimePicker
 
 
@@ -132,6 +132,20 @@ class appointmentform(forms.ModelForm):
     class Meta:
         model = appointment
         fields = ('physician_name','Schedule_appointment')
+
+class medicalDoubtform(forms.ModelForm):
+    class Meta:
+        model = medicalDoubt
+        fields = ('subject', 'description', 'date')
+        widgets = {
+            'date': forms.widgets.DateInput(attrs={'type': 'date'})
+        }
+
+class medicalReplyForm(forms.ModelForm):
+    class Meta:
+        model = medicalDoubt
+        fields = ('reply',)
+
 
 
 

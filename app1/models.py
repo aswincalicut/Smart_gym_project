@@ -89,6 +89,18 @@ class appointment(models.Model):
     def __int__(self):
         return self.physician_name
 
+class medicalDoubt(models.Model):
+    Cuser = models.ForeignKey(customuser, on_delete=models.CASCADE,null=True)
+    subject = models.CharField(max_length=100)
+    description = models.TextField()
+    date = models.CharField(max_length=50)
+    reply = models.TextField(max_length=255, null=True)
+    status = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.subject
+
+
 
 
 
