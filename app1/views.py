@@ -24,7 +24,8 @@ def home(request):
 def admin_home(request):
     if request.user.is_superuser:
         return render(request, 'admintemp/dashmin.html')
-    return render(request, "please login to access")
+    else:
+        return redirect('log')
 
 
 ####################### instructor section start #######################
@@ -239,7 +240,7 @@ def add_equipment(request):
 
 
 def view_equipment(request):
-    data = equipments.objects.filter()
+    data = equipments.objects.all()
     return render(request, 'equipments/view_equipment.html', {'data': data})
 
 
@@ -265,7 +266,10 @@ def delete_equipment(request, id):
 
 @login_required
 def customer_panel(request):
-    return render(request, 'customer/customer_panel.html')
+    if request.user.is_customer:
+        return render(request, 'customer/customer_panel.html')
+    else:
+        return redirect('log')
 
 
 def customerview_equipment(request):
@@ -291,7 +295,7 @@ def complaint_register(request):
 
 
 def view_complaint(request):
-    data = complaints.objects.filter()
+    data = complaints.objects.all()
     return render(request, 'complaints/view_complaints.html', {'data': data})
 
 
@@ -324,7 +328,7 @@ def complaint_reply(request, id):
 
 
 def replysee(request):
-    data = complaints.objects.filter()
+    data = complaints.objects.all()
     return render(request, 'complaints/reply_see.html', {'data': data})
 
 
@@ -507,7 +511,10 @@ def view_invoice(request, id):
 #################### instructor panel start ###########################
 
 def instructor_panel(request):
-    return render(request, 'instructortemp/instructor_panel.html')
+    if request.user.is_instructor:
+        return render(request, 'instructortemp/instructor_panel.html')
+    else:
+        return redirect('log')
 
 
 def batch_details(request):
@@ -552,7 +559,10 @@ def checkout_customers(request):
 #################### physician panel start ###########################
 
 def physician_panel(request):
-    return render(request, 'physiciantemp/physician_panel.html')
+    if request.user.is_physician:
+        return render(request, 'physiciantemp/physician_panel.html')
+    else:
+        return redirect('log')
 
 
 @login_required
