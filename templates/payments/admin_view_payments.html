@@ -5,14 +5,14 @@
   <div class="card">
 
     <div class="card-body">
-      <h4 class="header-title">Payments</h4>
+      <h4 style="text-align:center; font-size:40px" class="header-title">Payments</h4>
 
       <table class="table table-bordered">
         <thead>
         <tr>
-          <th>ID</th>
+          <th>SI NO</th>
           <th>NAME</th>
-          <th>DUE DATE</th>
+          <th>BILL DATE</th>
           <th>PAID STATUS</th>
         </tr>
         </thead>
@@ -22,7 +22,7 @@
         <tr>
           <td>{{forloop.counter}}</td>
           <td>{{i.name}}</td>
-          <td>{{i.due_date}}</td>
+          <td>{{i.bill_date}}</td>
 
           <td>
             {% if i.status == 0 %}

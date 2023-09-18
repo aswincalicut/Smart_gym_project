@@ -594,7 +594,7 @@ def update_allschedule(request, id):
         form = scheduleform(request.POST, instance=data)
         if form.is_valid():
             form.save()
-            return redirect(view_allschedule)
+            return redirect("view_allschedule")
     return render(request, 'physiciantemp/update_scheduleall.html', {'form': form})
 
 
